@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ColorfulPages - Marketplace for Coloring Books</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Navigation Bar */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .upload-btn {
+            background: white;
+            color: #667eea;
+            padding: 0.6rem 1.5rem;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .upload-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(255,255,255,0.3);
+        }
+
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 70px;
+            height: 90vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            color: white;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: white;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin: 0 0.5rem;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        /* Section Styles */
+        section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        section:nth-child(even) {
+            background: #f8f9ff;
+        }
+
+        section h2 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #667eea;
+        }
+
+        /* Dark Mode Toggle */
+        .theme-toggle {
+            background: white;
+            color: #667eea;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: 1rem;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background: #1a1a2e;
+            color: #eee;
+        }
+
+        body.dark-mode section:nth-child(even) {
+            background: #16213e;
+        }
+
+        body.dark-mode .product-card {
+            background: #0f3460;
+            color: #eee;
+        }
+
+        body.dark-mode .product-info h3 {
+            color: #fff;
+        }
+
+        body.dark-mode .modal-content {
+            background: #16213e;
+            color: #eee;
+        }
+
+        body.dark-mode .form-group input,
+        body.dark-mode .form-group textarea {
+            background: #0f3460;
+            color: #ffffff;
+            border-color: #667eea;
+        }
+
+        body.dark-mode .form-group input::placeholder,
+        body.dark-mode .form-group textarea::placeholder {
+            color: #aaa;
+        }
+
+        body.dark-mode .form-group label {
+            color: #eee;
+        }
+
+        body.dark-mode .contact-container,
+        body.dark-mode .detail-info h2 {
+            color: #ffffff;
+        }
+
+        body.dark-mode .detail-description {
+            color: #ccc;
+        }
+
+        body.dark-mode footer {
+            background: #0f0f1e;
+        }
+
+        /* Search and Filter */
+        .search-filter-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            padding: 0.8rem 1.2rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+            color: #333;
+        }
+
+        .search-box::placeholder {
+            color: #999;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        body.dark-mode .search-box {
+            background: #0f3460;
+            color: #ffffff;
+            border-color: #667eea;
+        }
+
+        body.dark-mode .search-box::placeholder {
+            color: #aaa;
+        }
+
+        .filter-select {
+            padding: 0.8rem 1.2rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            background: white;
+            color: #333;
+            transition: all 0.3s ease;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        body.dark-mode .filter-select {
+            background: #0f3460;
+            color: #ffffff;
+            border-color: #667eea;
+        }
+
+        body.dark-mode .filter-select option {
+            background: #0f3460;
+            color: #ffffff;
+        }
+
+        /* Product Gallery */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .seller-info {
+            font-size: 0.9rem;
+            color: #888;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-info p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .view-btn {
+            padding: 0.5rem 1rem;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .view-btn:hover {
+            background: #764ba2;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            overflow-y: auto;
+            padding: 2rem;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            max-width: 900px;
+            width: 100%;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #667eea;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: #764ba2;
+            transform: rotate(90deg);
+        }
+
+        /* Upload Modal */
+        .upload-form {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            padding: 0.8rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+            color: #333;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #999;
+        }
+
+        .file-upload-area {
+            border: 3px dashed #667eea;
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .file-upload-area:hover {
+            background: #f8f9ff;
+        }
+
+        .file-upload-area.dragover {
+            background: #e8ebff;
+            border-color: #764ba2;
+        }
+
+        .preview-images {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .preview-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .submit-button {
+            padding: 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Product Detail Modal */
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .detail-images {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .main-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .thumbnail-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+        }
+
+        .thumbnail {
+            width: 100%;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 5px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .thumbnail:hover,
+        .thumbnail.active {
+            border-color: #667eea;
+        }
+
+        .detail-info h2 {
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .detail-price {
+            font-size: 2rem;
+            color: #667eea;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .detail-seller {
+            background: #f8f9ff;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .detail-description {
+            line-height: 1.8;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .order-btn,
+        .contact-btn {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .order-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .contact-btn {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .order-btn:hover,
+        .contact-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #999;
+        }
+
+        .empty-state-icon {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #666;
+        }
+
+        .about-image {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 400px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 5rem;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Contact Form */
+        .contact-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .contact-form {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 0.9rem;
+            margin-top: 0.3rem;
+            display: none;
+        }
+
+        .contact-success {
+            display: none;
+            background: #2ecc71;
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        /* Success Message */
+        .success-banner {
+            display: none;
+            position: fixed;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2ecc71;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            z-index: 3000;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -20px);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, 0);
+            }
+        }
+
+        /* Footer */
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .mobile-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                flex-direction: column;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                width: 100%;
+                padding: 2rem;
+                transition: left 0.3s ease;
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .detail-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="#home" class="logo">🎨 ColorfulPages</a>
+            <button class="mobile-toggle" id="mobileToggle">☰</button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#marketplace">Marketplace</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="#" class="upload-btn" onclick="openUploadModal()">📤 Upload Book</a></li>
+                <li><button class="theme-toggle" id="themeToggle" title="Toggle Dark Mode">🌙</button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Buy & Sell Coloring Books</h1>
+            <p>The ultimate marketplace for coloring book creators and enthusiasts</p>
+            <button class="cta-button" onclick="document.getElementById('marketplace').scrollIntoView({behavior: 'smooth'})">Browse Books</button>
+            <button class="cta-button" onclick="openUploadModal()">Sell Your Book</button>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <h2>About ColorfulPages</h2>
+        <div class="about-content">
+            <div class="about-text">
+                <p>Welcome to ColorfulPages, the premier marketplace connecting coloring book creators with enthusiasts worldwide. We believe in the power of creativity and the joy that coloring brings to people of all ages.</p>
+                <p>Our platform makes it easy for talented artists to showcase and sell their coloring books directly to customers who appreciate quality designs. Whether you're looking for intricate mandalas, nature scenes, or fantasy illustrations, you'll find it here.</p>
+                <p>Join our growing community of creators and colorists. Upload your designs, discover new books, and be part of the coloring revolution!</p>
+            </div>
+            <div class="about-image">🎨</div>
+        </div>
+    </section>
+
+    <!-- Marketplace Section -->
+    <section id="marketplace">
+        <h2>Marketplace</h2>
+        <div class="search-filter-bar">
+            <input type="text" class="search-box" id="searchBox" placeholder="🔍 Search for coloring books...">
+            <select class="filter-select" id="priceFilter">
+                <option value="all">All Prices</option>
+                <option value="low">Under $10</option>
+                <option value="mid">$10 - $20</option>
+                <option value="high">Over $20</option>
+            </select>
+        </div>
+        <div class="product-grid" id="productGrid">
+            <!-- Products will be dynamically inserted here -->
+        </div>
+        <div class="empty-state" id="emptyState">
+            <div class="empty-state-icon">📚</div>
+            <h3>No books yet</h3>
+            <p>Be the first to upload a coloring book!</p>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <h2>Get In Touch</h2>
+        <div class="contact-container">
+            <form class="contact-form" id="contactForm">
+                <div class="form-group">
+                    <label for="contactName">Name *</label>
+                    <input type="text" id="contactName" required>
+                    <div class="error-message" id="contactNameError">Please enter your name</div>
+                </div>
+                <div class="form-group">
+                    <label for="contactEmail">Email *</label>
+                    <input type="email" id="contactEmail" required>
+                    <div class="error-message" id="contactEmailError">Please enter a valid email</div>
+                </div>
+                <div class="form-group">
+                    <label for="contactSubject">Subject *</label>
+                    <input type="text" id="contactSubject" required>
+                    <div class="error-message" id="contactSubjectError">Please enter a subject</div>
+                </div>
+                <div class="form-group">
+                    <label for="contactMessage">Message *</label>
+                    <textarea id="contactMessage" rows="5" required></textarea>
+                    <div class="error-message" id="contactMessageError">Please enter your message</div>
+                </div>
+                <button type="submit" class="submit-button">Send Message</button>
+                <div class="contact-success" id="contactSuccess">
+                    Thank you! Your message has been sent successfully.
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 ColorfulPages Marketplace. Built by Lykan. All rights reserved.</p>
+    </footer>
+
+    <!-- Upload Modal -->
+    <div class="modal" id="uploadModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeUploadModal()">×</button>
+            <h2>Upload Your Coloring Book</h2>
+            <form class="upload-form" id="uploadForm">
+                <div class="form-group">
+                    <label>Book Title *</label>
+                    <input type="text" id="bookTitle" required>
+                </div>
+                <div class="form-group">
+                    <label>Your Name (Seller) *</label>
+                    <input type="text" id="sellerName" required>
+                </div>
+                <div class="form-group">
+                    <label>Your Email *</label>
+                    <input type="email" id="sellerEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>Price (USD) *</label>
+                    <input type="number" id="bookPrice" min="0" step="0.01" placeholder="$ 0.00" required>
+                </div>
+                <div class="form-group">
+                    <label>Description *</label>
+                    <textarea id="bookDescription" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Upload Preview Images (Click or Drag & Drop) *</label>
+                    <div class="file-upload-area" id="fileUploadArea">
+                        <p>📸 Click here or drag images to upload</p>
+                        <p style="font-size: 0.9rem; color: #999;">Upload 1-5 preview images of your coloring book</p>
+                        <input type="file" id="fileInput" multiple accept="image/*" style="display: none;">
+                    </div>
+                    <div class="preview-images" id="previewImages"></div>
+                </div>
+                <button type="submit" class="submit-button">Publish Book</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Product Detail Modal -->
+    <div class="modal" id="detailModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeDetailModal()">×</button>
+            <div class="detail-grid">
+                <div class="detail-images">
+                    <img id="mainImage" class="main-image" src="" alt="Main product image">
+                    <div class="thumbnail-grid" id="thumbnailGrid"></div>
+                </div>
+                <div class="detail-info">
+                    <h2 id="detailTitle"></h2>
+                    <div class="detail-price" id="detailPrice"></div>
+                    <div class="detail-seller">
+                        <strong>Seller:</strong> <span id="detailSeller"></span><br>
+                        <strong>Contact:</strong> <span id="detailEmail"></span>
+                    </div>
+                    <div class="detail-description" id="detailDescription"></div>
+                    <div class="action-buttons">
+                        <button class="order-btn" onclick="makeOrder()">Place Order</button>
+                        <button class="contact-btn" onclick="contactSeller()">Contact Seller</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Banner -->
+    <div class="success-banner" id="successBanner"></div>
+
+    <script>
+        // Store for uploaded books with localStorage persistence
+        let books = JSON.parse(localStorage.getItem('colorfulBooks')) || [];
+        let currentBookImages = [];
+        let selectedBookIndex = null;
+
+        // Add sample/featured books if none exist
+        if (books.length === 0) {
+            books = [
+                {
+                    title: "Floral Dreams",
+                    seller: "Artist Jane",
+                    email: "jane@example.com",
+                    price: "12.99",
+                    description: "Beautiful collection of 50 intricate floral designs perfect for relaxation and stress relief. Each page features unique botanical patterns.",
+                    images: ["data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect fill='%23667eea' width='400' height='400'/%3E%3Ctext x='50%25' y='50%25' font-size='100' text-anchor='middle' dy='.3em' fill='white'%3E🌺%3C/text%3E%3C/svg%3E"],
+                    uploadDate: new Date().toLocaleDateString()
+                },
+                {
+                    title: "Mandala Magic",
+                    seller: "Creative Studio",
+                    email: "studio@example.com",
+                    price: "15.99",
+                    description: "Explore the world of mandalas with these 40 mesmerizing circular designs. Perfect for mindful coloring and meditation.",
+                    images: ["data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect fill='%23764ba2' width='400' height='400'/%3E%3Ctext x='50%25' y='50%25' font-size='100' text-anchor='middle' dy='.3em' fill='white'%3E🕉️%3C/text%3E%3C/svg%3E"],
+                    uploadDate: new Date().toLocaleDateString()
+                },
+                {
+                    title: "Ocean Adventures",
+                    seller: "Marine Artist",
+                    email: "ocean@example.com",
+                    price: "13.99",
+                    description: "Dive into underwater scenes with dolphins, sea turtles, coral reefs, and more. 45 pages of aquatic wonder.",
+                    images: ["data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Crect fill='%234facfe' width='400' height='400'/%3E%3Ctext x='50%25' y='50%25' font-size='100' text-anchor='middle' dy='.3em' fill='white'%3E🌊%3C/text%3E%3C/svg%3E"],
+                    uploadDate: new Date().toLocaleDateString()
+                }
+            ];
+            saveBooks();
+        }
+
+        // Save books to localStorage
+        function saveBooks() {
+            localStorage.setItem('colorfulBooks', JSON.stringify(books));
+        }
+
+        // Dark mode toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark-mode');
+            themeToggle.textContent = '☀️';
+        }
+
+        themeToggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            themeToggle.textContent = isDark ? '☀️' : '🌙';
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        });
+
+        // Mobile menu toggle
+        document.getElementById('mobileToggle').addEventListener('click', () => {
+            document.getElementById('navLinks').classList.toggle('active');
+        });
+
+        // File upload handling
+        const fileUploadArea = document.getElementById('fileUploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const previewImages = document.getElementById('previewImages');
+
+        fileUploadArea.addEventListener('click', () => fileInput.click());
+
+        fileUploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            fileUploadArea.classList.add('dragover');
+        });
+
+        fileUploadArea.addEventListener('dragleave', () => {
+            fileUploadArea.classList.remove('dragover');
+        });
+
+        fileUploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileUploadArea.classList.remove('dragover');
+            handleFiles(e.dataTransfer.files);
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+        });
+
+        function handleFiles(files) {
+            currentBookImages = [];
+            previewImages.innerHTML = '';
+            
+            const fileArray = Array.from(files).slice(0, 5); // Max 5 images
+            
+            fileArray.forEach(file => {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        currentBookImages.push(e.target.result);
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.className = 'preview-image';
+                        previewImages.appendChild(img);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        // Upload form submission
+        document.getElementById('uploadForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            if (currentBookImages.length === 0) {
+                alert('Please upload at least one preview image!');
+                return;
+            }
+
+            const book = {
+                title: document.getElementById('bookTitle').value,
+                seller: document.getElementById('sellerName').value,
+                email: document.getElementById('sellerEmail').value,
+                price: parseFloat(document.getElementById('bookPrice').value).toFixed(2),
+                description: document.getElementById('bookDescription').value,
+                images: [...currentBookImages],
+                uploadDate: new Date().toLocaleDateString()
+            };
+
+            books.push(book);
+            saveBooks(); // Save to localStorage
+            renderBooks();
+            closeUploadModal();
+            showSuccess('Your coloring book has been published successfully!');
+            
+            // Reset form
+            document.getElementById('uploadForm').reset();
+            currentBookImages = [];
+            previewImages.innerHTML = '';
+        });
+
+        // Search and filter functionality
+        const searchBox = document.getElementById('searchBox');
+        const priceFilter = document.getElementById('priceFilter');
+
+        searchBox.addEventListener('input', renderBooks);
+        priceFilter.addEventListener('change', renderBooks);
+
+        // Render books in marketplace with search/filter
+        function renderBooks() {
+            const grid = document.getElementById('productGrid');
+            const emptyState = document.getElementById('emptyState');
+            const searchTerm = searchBox.value.toLowerCase();
+            const priceRange = priceFilter.value;
+            
+            // Filter books
+            const filteredBooks = books.filter(book => {
+                // Search filter
+                const matchesSearch = book.title.toLowerCase().includes(searchTerm) ||
+                                    book.seller.toLowerCase().includes(searchTerm) ||
+                                    book.description.toLowerCase().includes(searchTerm);
+                
+                // Price filter
+                let matchesPrice = true;
+                const price = parseFloat(book.price);
+                if (priceRange === 'low') matchesPrice = price < 10;
+                else if (priceRange === 'mid') matchesPrice = price >= 10 && price <= 20;
+                else if (priceRange === 'high') matchesPrice = price > 20;
+                
+                return matchesSearch && matchesPrice;
+            });
+            
+            if (filteredBooks.length === 0) {
+                emptyState.style.display = 'block';
+                grid.innerHTML = '';
+                if (searchTerm || priceRange !== 'all') {
+                    emptyState.querySelector('h3').textContent = 'No books found';
+                    emptyState.querySelector('p').textContent = 'Try adjusting your search or filters';
+                } else {
+                    emptyState.querySelector('h3').textContent = 'No books yet';
+                    emptyState.querySelector('p').textContent = 'Be the first to upload a coloring book!';
+                }
+                return;
+            }
+            
+            emptyState.style.display = 'none';
+            grid.innerHTML = '';
+            
+            filteredBooks.forEach((book, index) => {
+                const actualIndex = books.indexOf(book);
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <img src="${book.images[0]}" alt="${book.title}" class="product-image">
+                    <div class="product-info">
+                        <h3>${book.title}</h3>
+                        <div class="seller-info">by ${book.seller}</div>
+                        <p>${book.description.substring(0, 100)}${book.description.length > 100 ? '...' : ''}</p>
+                        <div class="product-footer">
+                            <div class="product-price">${book.price}</div>
+                            <button class="view-btn" onclick="viewBookDetail(${actualIndex})">View Details</button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Open/Close Upload Modal
+        function openUploadModal() {
+            document.getElementById('uploadModal').classList.add('active');
+        }
+
+        function closeUploadModal() {
+            document.getElementById('uploadModal').classList.remove('active');
+        }
+
+        // View book details
+        function viewBookDetail(index) {
+            selectedBookIndex = index;
+            const book = books[index];
+            
+            document.getElementById('detailTitle').textContent = book.title;
+            document.getElementById('detailPrice').textContent = `$${book.price}`;
+            document.getElementById('detailSeller').textContent = book.seller;
+            document.getElementById('detailEmail').textContent = book.email;
+            document.getElementById('detailDescription').textContent = book.description;
+            
+            // Set main image
+            document.getElementById('mainImage').src = book.images[0];
+            
+            // Set thumbnails
+            const thumbnailGrid = document.getElementById('thumbnailGrid');
+            thumbnailGrid.innerHTML = '';
+            book.images.forEach((img, i) => {
+                const thumb = document.createElement('img');
+                thumb.src = img;
+                thumb.className = `thumbnail ${i === 0 ? 'active' : ''}`;
+                thumb.onclick = () => changeMainImage(img, thumb);
+                thumbnailGrid.appendChild(thumb);
+            });
+            
+            document.getElementById('detailModal').classList.add('active');
+        }
+
+        function closeDetailModal() {
+            document.getElementById('detailModal').classList.remove('active');
+        }
+
+        function changeMainImage(src, thumbElement) {
+            document.getElementById('mainImage').src = src;
+            document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+            thumbElement.classList.add('active');
+        }
+
+        // Order and Contact actions
+        function makeOrder() {
+            const book = books[selectedBookIndex];
+            showSuccess(`Order placed for "${book.title}"! The seller (${book.seller}) will contact you at the email you provided.`);
+            closeDetailModal();
+        }
+
+        function contactSeller() {
+            const book = books[selectedBookIndex];
+            window.location.href = `mailto:${book.email}?subject=Inquiry about ${book.title}`;
+        }
+
+        // Show success message
+        function showSuccess(message) {
+            const banner = document.getElementById('successBanner');
+            banner.textContent = message;
+            banner.style.display = 'block';
+            setTimeout(() => {
+                banner.style.display = 'none';
+            }, 4000);
+        }
+
+        // Close modals when clicking outside
+        document.getElementById('uploadModal').addEventListener('click', (e) => {
+            if (e.target.id === 'uploadModal') closeUploadModal();
+        });
+
+        document.getElementById('detailModal').addEventListener('click', (e) => {
+            if (e.target.id === 'detailModal') closeDetailModal();
+        });
+
+        // Contact form validation and submission
+        document.getElementById('contactForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Reset error messages
+            document.querySelectorAll('.error-message').forEach(msg => {
+                msg.style.display = 'none';
+            });
+
+            let isValid = true;
+
+            // Validate name
+            const name = document.getElementById('contactName');
+            if (name.value.trim() === '') {
+                document.getElementById('contactNameError').style.display = 'block';
+                isValid = false;
+            }
+
+            // Validate email
+            const email = document.getElementById('contactEmail');
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email.value)) {
+                document.getElementById('contactEmailError').style.display = 'block';
+                isValid = false;
+            }
+
+            // Validate subject
+            const subject = document.getElementById('contactSubject');
+            if (subject.value.trim() === '') {
+                document.getElementById('contactSubjectError').style.display = 'block';
+                isValid = false;
+            }
+
+            // Validate message
+            const message = document.getElementById('contactMessage');
+            if (message.value.trim() === '') {
+                document.getElementById('contactMessageError').style.display = 'block';
+                isValid = false;
+            }
+
+            // If form is valid, show success message
+            if (isValid) {
+                document.getElementById('contactSuccess').style.display = 'block';
+                document.getElementById('contactForm').reset();
+                
+                // Hide success message after 5 seconds
+                setTimeout(() => {
+                    document.getElementById('contactSuccess').style.display = 'none';
+                }, 5000);
+            }
+        });
+
+        // Initial render
+        renderBooks();
+    </script>
+</body>
+</html>
